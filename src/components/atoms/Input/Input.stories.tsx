@@ -1,64 +1,89 @@
-// import type { Meta, StoryObj } from '@storybook/react';
-// import   Input  from './Input';
+import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
+import { useState, type ComponentProps } from 'react';
+import Input from './Input';
+import { DollarSign } from 'lucide-react';
 
-// const meta = {
-//   title: 'Atoms/Input',
-//   component: Input,
-//   parameters: {
-//     layout: 'centered',
-//   },
-//   tags: ['autodocs'],
-// } satisfies Meta<typeof Input>;
+const meta = {
+	title: 'Design System/Atoms/Input',
+	component: Input,
+	tags: ['autodocs'],
+	parameters: {
+		layout: 'padded',
+	},
+	argTypes: {
+		variant: {
+			control: 'select',
+			options: ['text', 'number', 'formatted-number', 'integer'],
+		},
+		disabled: { control: 'boolean' },
+	},
+} satisfies Meta<typeof Input>;
 
-// export default meta;
-// type Story = StoryObj<typeof meta>;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-// export const Default: Story = {
-//   args: {
-//     placeholder: 'Enter text here',
-//   },
-// };
+function StatefulInput(props: ComponentProps<typeof Input>) {
+	const [v, setV] = useState(props.value?.toString() ?? '');
+	return <Input {...props} value={v} onChange={setV} />;
+}
 
-// export const WithLabel: Story = {
-//   args: {
-//     label: 'Email',
-//     placeholder: 'Enter your email',
-//     type: 'email',
-//   },
-// };
+export const Default: Story = {
+	render: (args) => <StatefulInput {...args} placeholder='Type here' />,
+	args: {
+		label: 'Name',
+		placeholder: 'Acme Corp',
+	},
+};
 
-// export const WithError: Story = {
-//   args: {
-//     label: 'Password',
-//     type: 'password',
-//     error: 'Password must be at least 8 characters',
-//     placeholder: 'Enter your password',
-//   },
-// };
+export const NumberField: Story = {
+	render: (args) => <StatefulInput {...args} variant='number' />,
+	args: {
+		label: 'Seats',
+		placeholder: '10',
+		variant: 'number',
+	},
+};
 
-// export const Disabled: Story = {
-//   args: {
-//     label: 'Username',
-//     placeholder: 'Enter your username',
-//     disabled: true,
-//   },
-// };
+export const WithError: Story = {
+	render: (args) => <StatefulInput {...args} />,
+	args: {
+		label: 'Amount',
+		error: 'Must be greater than zero',
+		variant: 'number',
+		placeholder: '0',
+	},
+};
 
-// export const FullWidth: Story = {
-//   args: {
-//     label: 'Full Name',
-//     placeholder: 'Enter your full name',
-//     fullWidth: true,
-//   },
-//   parameters: {
-//     layout: 'padded',
-//   },
-// };
+export const CurrencyPrefix: Story = {
+	render: (args) => (
+		<StatefulInput
+			{...args}
+			variant='formatted-number'
+			inputPrefix={
+				<span className='text-muted-foreground' aria-hidden>
+					<DollarSign className='size-4' />
+				</span>
+			}
+		/>
+	),
+	args: {
+		label: 'Unit price',
+		placeholder: '0.00',
+	},
+};
 
-// export const WithValue: Story = {
-//   args: {
-//     label: 'Name',
-//     value: 'John Doe',
-//     placeholder: 'Enter your name',
-//   },
-// };
+function InputInteractionsStory() {
+	const [v, setV] = useState('');
+	return <Input id='story-input' label='Search' value={v} onChange={setV} placeholder='customer@example.com' />;
+}
+
+export const Interactions: Story = {
+	render: () => <InputInteractionsStory />,
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const field = canvas.getByPlaceholderText('customer@example.com');
+		await userEvent.type(field, 'hello@flexprice.io');
+		await expect(field).toHaveValue('hello@flexprice.io');
+	},
+};

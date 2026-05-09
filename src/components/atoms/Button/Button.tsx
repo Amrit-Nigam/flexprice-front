@@ -40,6 +40,11 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 	prefixIcon?: ReactNode;
 }
 
+/**
+ * Primary action control with FlexPrice palette defaults, loading swap, and optional prefix/suffix icons.
+ *
+ * Variant mapping for design-system docs: `default` → primary, `secondary` → secondary, `ghost` → ghost, `destructive` → danger.
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	({ className, variant, size, asChild = false, isLoading = false, children, suffixIcon, prefixIcon, ...props }, ref) => {
 		const Comp = asChild ? Slot : 'button';

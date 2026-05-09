@@ -14,7 +14,10 @@ export interface SelectOption {
 	disabled?: boolean;
 }
 
-interface SearchableSelectProps {
+/**
+ * Single-select field with inline search over options; built on cmdk + Radix popover for FlexPrice forms.
+ */
+export interface SearchableSelectProps {
 	options: SelectOption[];
 	value?: string;
 	defaultOpen?: boolean;

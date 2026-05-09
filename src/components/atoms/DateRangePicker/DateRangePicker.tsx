@@ -12,7 +12,8 @@ import {
 	type DateTimezone,
 } from '@/utils/common/format_date';
 
-interface Props {
+/** Range control for analytics filters with optional timezone conversion helpers. */
+export interface DateRangePickerProps {
 	startDate?: Date;
 	endDate?: Date;
 	placeholder?: string;
@@ -42,7 +43,7 @@ const DateRangePicker = ({
 	popoverClassName,
 	popoverTriggerClassName,
 	popoverContentClassName,
-}: Props) => {
+}: DateRangePickerProps) => {
 	const [open, setOpen] = useState(false);
 	const [selectedRange, setSelectedRange] = useState<{ from: Date; to: Date } | undefined>(undefined);
 	const [timezone, setTimezone] = useState<CalendarTimezone>('local');

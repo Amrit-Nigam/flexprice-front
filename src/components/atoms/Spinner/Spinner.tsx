@@ -1,10 +1,13 @@
 import React from 'react';
 
-interface SpinnerProps {
+export interface SpinnerProps {
 	size?: number;
 	className?: string;
 }
 
+/**
+ * Inline indeterminate spinner using the current text colour — pair with `LoadingState` for full regions.
+ */
 const Spinner: React.FC<SpinnerProps> = ({ size = 24, className = '' }) => {
 	return (
 		<svg

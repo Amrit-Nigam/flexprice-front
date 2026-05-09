@@ -2,7 +2,10 @@ import { formatNumber } from '@/utils/common';
 import { getCurrencySymbol } from '@/utils/common/helper_functions';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-interface MetricCardProps {
+/**
+ * Dashboard KPI tile showing a metric value with optional currency / percent formatting and trend arrow.
+ */
+export interface MetricCardProps {
 	title: string;
 	value: number;
 	currency?: string;

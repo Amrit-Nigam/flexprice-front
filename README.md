@@ -248,7 +248,19 @@ npm run preview      # Preview production build
 npm run lint        # Run ESLint
 npm run lint:fix    # Fix ESLint errors
 npm run format      # Format with Prettier
+
+# Storybook (design system)
+npm run storybook         # Dev server on :6006
+npm run build-storybook   # Static output → storybook-static/
 ```
+
+### Storybook on Vercel
+
+This repo includes [`vercel.json`](vercel.json) so you can deploy the built Storybook as a static site: connect the GitHub repo in Vercel and use the defaults (build: `npm run build-storybook`, output: `storybook-static`). Replace the line below with your deployment URL after publish.
+
+**Hosted Storybook:** _add your Vercel URL here_
+
+Stories for the take-home live under the **Design System/** group in Storybook. Advanced demos: **DataTable → WithFilterPersistence** (`useFilterStore` + URL `fp` fingerprint), **DataTable → VirtualizedTenThousandRows**, and **`src/lib/query/createQueryConfig.ts`** (with Vitest).
 
 ## 🔧 Common Development Tasks
 
