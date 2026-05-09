@@ -256,9 +256,9 @@ npm run build-storybook   # Static output → storybook-static/
 
 ### Storybook on Vercel
 
-This repo includes [`vercel.json`](vercel.json) so you can deploy the built Storybook as a static site: connect the GitHub repo in Vercel and use the defaults (build: `npm run build-storybook`, output: `storybook-static`). Replace the line below with your deployment URL after publish.
+This repo includes [`vercel.json`](vercel.json) so you can deploy the built Storybook as a static site: connect the GitHub repo in Vercel and use the defaults (build: `npm run build-storybook`, output: `storybook-static`).
 
-**Hosted Storybook:** _add your Vercel URL here_
+**Hosted Storybook:** [flexprice-front-two.vercel.app](https://flexprice-front-two.vercel.app)
 
 Stories for the take-home live under the **Design System/** group in Storybook. Advanced demos: **DataTable → WithFilterPersistence** (`useFilterStore` + URL `fp` fingerprint), **DataTable → VirtualizedTenThousandRows**, and **`src/lib/query/createQueryConfig.ts`** (with Vitest).
 
