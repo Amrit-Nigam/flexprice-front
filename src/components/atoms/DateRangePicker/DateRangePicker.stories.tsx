@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import { expect, fn, userEvent, within } from '@storybook/test';
 import { useState, type ComponentProps } from 'react';
 import DateRangePicker from './DateRangePicker';
 
@@ -49,7 +49,14 @@ function DateRangePickerVariantsStory() {
 	return (
 		<div className='flex flex-col gap-10'>
 			<DateRangePicker title='Empty' placeholder='Pick a window' startDate={a.startDate} endDate={a.endDate} onChange={setA} />
-			<DateRangePicker title='Prefilled' placeholder='Locked' startDate={b.startDate} endDate={b.endDate} onChange={setB} disabled />
+			<DateRangePicker
+				title='Prefilled (disabled)'
+				placeholder='Locked'
+				startDate={b.startDate}
+				endDate={b.endDate}
+				onChange={setB}
+				disabled
+			/>
 		</div>
 	);
 }
@@ -59,4 +66,29 @@ export const Variants: Story = {
 		onChange: fn(),
 	},
 	render: () => <DateRangePickerVariantsStory />,
+};
+
+function DateRangePickerInteractiveStory() {
+	const [range, setRange] = useState<{ startDate?: Date; endDate?: Date }>({});
+	return (
+		<DateRangePicker
+			title='Analytics window'
+			placeholder='Select a range'
+			startDate={range.startDate}
+			endDate={range.endDate}
+			onChange={setRange}
+		/>
+	);
+}
+
+export const Interactions: Story = {
+	args: { onChange: fn() },
+	render: () => <DateRangePickerInteractiveStory />,
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const trigger = canvas.getByRole('button', { name: /select a range/i });
+		await userEvent.click(trigger);
+		const calendar = await canvas.findByRole('grid');
+		await expect(calendar).toBeInTheDocument();
+	},
 };

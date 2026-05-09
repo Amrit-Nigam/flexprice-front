@@ -1,16 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from '@storybook/test';
 import { useState } from 'react';
 import SortDropdown from './SortDropdown';
 import { SortOption, SortDirection } from '@/types/common/QueryBuilder';
 
 const meta: Meta<typeof SortDropdown> = {
-	title: 'Molecules/QueryBuilder/SortDropdown',
+	title: 'Design System/Molecules/SortDropdown',
 	component: SortDropdown,
+	tags: ['autodocs'],
+	argTypes: {
+		maxSorts: { control: 'number', description: 'Maximum number of concurrent sort conditions' },
+		disabled: { control: 'boolean' },
+		onChange: { action: 'changed' },
+	},
 	parameters: {
 		layout: 'centered',
-		backgrounds: {
-			default: 'light',
-		},
 	},
 };
 
@@ -57,4 +61,15 @@ export const Default: Story = {
 
 export const WithInitialSorts: Story = {
 	render: () => <WithInitialSortsStory />,
+};
+
+export const Interactions: Story = {
+	render: () => <DefaultStory />,
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const sortBtn = canvas.getByRole('button', { name: /sort/i });
+		await userEvent.click(sortBtn);
+		const addSort = await canvas.findByRole('button', { name: /add sort/i });
+		await expect(addSort).toBeInTheDocument();
+	},
 };
