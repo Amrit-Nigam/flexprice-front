@@ -82,6 +82,8 @@ This fork adds a **hosted Storybook design system** on top of the production Fle
 - **Advanced tracks (brief):** Filter state persists per route in **sessionStorage** with only a compact **`fp` hash** in the URL — see **DataTable → WithFilterPersistence** and [`src/hooks/useFilterStore.ts`](src/hooks/useFilterStore.ts). Large lists use **virtualized rows** — **DataTable → VirtualizedTenThousandRows** and [`src/components/molecules/DataTable/DataTable.tsx`](src/components/molecules/DataTable/DataTable.tsx). TanStack Query helpers and presets live in [`src/lib/query/createQueryConfig.ts`](src/lib/query/createQueryConfig.ts) with Vitest coverage.
 - **Tests:** Vitest covers design-system utilities (currency, invoice status mapping, tier math, query merge behavior) plus RTL tests on representative components (for example Input, SearchBar, InvoiceStatusBadge, MetricCard).
 
+**Full approach (walk-through for reviewers):** [submission.md](./submission.md)
+
 ### Storybook on Vercel
 
 This repo includes [`vercel.json`](vercel.json) so you can deploy the built Storybook as a static site: connect the GitHub repo in Vercel and use the defaults (build: `npm run build-storybook`, output: `storybook-static`).
