@@ -53,6 +53,7 @@
 
 ## 📋 Table of Contents
 
+- [Storybook take-home (approach)](#storybook-take-home-approach)
 - [🏗️ Open Architecture](#-open-architecture)
 - [🚀 Quick Setup](#-quick-setup-one-click-development)
 - [🛠️ Manual Development Setup](#️-manual-development-setup)
@@ -69,6 +70,25 @@
 - [🔒 Security](#-security)
 - [📝 Changelog](#-changelog)
 - [📄 License](#-license)
+
+---
+
+## Storybook take-home (approach)
+
+This fork adds a **hosted Storybook design system** on top of the production Flexprice frontend stack (React, TypeScript, Vite, Tailwind, shadcn/Radix). The goal was to document real UI patterns the app uses, not a parallel toy library.
+
+- **Organization:** Stories are grouped under **Design System/** in Storybook (Atoms, Molecules, Organisms) so reviewers can scan the sidebar quickly.
+- **Story shape:** Each documented component has a default story, variant stories for meaningful states (loading, empty, error, disabled where relevant), and **Controls** via `args` / `argTypes`. Interactive pieces use **`@storybook/test` `play` functions** where it adds signal (buttons, inputs, search, sidebar, tables with filters).
+- **Advanced tracks (brief):** Filter state persists per route in **sessionStorage** with only a compact **`fp` hash** in the URL — see **DataTable → WithFilterPersistence** and [`src/hooks/useFilterStore.ts`](src/hooks/useFilterStore.ts). Large lists use **virtualized rows** — **DataTable → VirtualizedTenThousandRows** and [`src/components/molecules/DataTable/DataTable.tsx`](src/components/molecules/DataTable/DataTable.tsx). TanStack Query helpers and presets live in [`src/lib/query/createQueryConfig.ts`](src/lib/query/createQueryConfig.ts) with Vitest coverage.
+- **Tests:** Vitest covers design-system utilities (currency, invoice status mapping, tier math, query merge behavior) plus RTL tests on representative components (for example Input, SearchBar, InvoiceStatusBadge, MetricCard).
+
+### Storybook on Vercel
+
+This repo includes [`vercel.json`](vercel.json) so you can deploy the built Storybook as a static site: connect the GitHub repo in Vercel and use the defaults (build: `npm run build-storybook`, output: `storybook-static`).
+
+**Hosted Storybook:** [flexprice-front-two.vercel.app](https://flexprice-front-two.vercel.app)
+
+Stories for the take-home live under the **Design System/** group in Storybook. Advanced demos: **DataTable → WithFilterPersistence** (`useFilterStore` + URL `fp` fingerprint), **DataTable → VirtualizedTenThousandRows**, and **`src/lib/query/createQueryConfig.ts`** (with Vitest).
 
 ---
 
@@ -254,13 +274,7 @@ npm run storybook         # Dev server on :6006
 npm run build-storybook   # Static output → storybook-static/
 ```
 
-### Storybook on Vercel
-
-This repo includes [`vercel.json`](vercel.json) so you can deploy the built Storybook as a static site: connect the GitHub repo in Vercel and use the defaults (build: `npm run build-storybook`, output: `storybook-static`).
-
-**Hosted Storybook:** [flexprice-front-two.vercel.app](https://flexprice-front-two.vercel.app)
-
-Stories for the take-home live under the **Design System/** group in Storybook. Advanced demos: **DataTable → WithFilterPersistence** (`useFilterStore` + URL `fp` fingerprint), **DataTable → VirtualizedTenThousandRows**, and **`src/lib/query/createQueryConfig.ts`** (with Vitest).
+For the hosted Storybook URL, deployment notes, and take-home write-up, see **[Storybook take-home (approach)](#storybook-take-home-approach)** above.
 
 ## 🔧 Common Development Tasks
 
